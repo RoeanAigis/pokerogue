@@ -253,7 +253,7 @@ export class GameData {
     this.voucherCounts = {
       [VoucherType.REGULAR]: 0,
       [VoucherType.PLUS]: 1,
-      [VoucherType.PREMIUM]: 3,
+      [VoucherType.PREMIUM]: 2,
       [VoucherType.GOLDEN]: 1
     };
     this.eggs = [];
