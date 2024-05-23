@@ -235,6 +235,7 @@ export class GameData {
   public voucherCounts: VoucherCounts;
   public eggs: Egg[];
 
+  // default data
   constructor(scene: BattleScene) {
     this.scene = scene;
     this.loadSettings();
@@ -251,9 +252,9 @@ export class GameData {
     this.voucherUnlocks = {};
     this.voucherCounts = {
       [VoucherType.REGULAR]: 0,
-      [VoucherType.PLUS]: 0,
-      [VoucherType.PREMIUM]: 0,
-      [VoucherType.GOLDEN]: 0
+      [VoucherType.PLUS]: 1,
+      [VoucherType.PREMIUM]: 3,
+      [VoucherType.GOLDEN]: 1
     };
     this.eggs = [];
     this.initDexData();
