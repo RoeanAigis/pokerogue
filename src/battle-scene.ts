@@ -58,7 +58,11 @@ import * as Overrides from "./overrides";
 import {InputsController} from "./inputs-controller";
 import {UiInputs} from "./ui-inputs";
 
-export const bypassLogin = import.meta.env.VITE_BYPASS_LOGIN === "1";
+export let bypassLogin = false;
+
+export function setBypassLogin(value: boolean) {
+  bypassLogin = value;
+}
 
 const DEBUG_RNG = false;
 

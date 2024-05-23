@@ -1,4 +1,4 @@
-import BattleScene, { bypassLogin } from "../battle-scene";
+import BattleScene, { setBypassLogin } from "../battle-scene";
 import { TextStyle, addTextObject } from "./text";
 import { Mode } from "./ui";
 import * as Utils from "../utils";
@@ -7,7 +7,6 @@ import MessageUiHandler from "./message-ui-handler";
 import { GameDataType } from "../system/game-data";
 import { OptionSelectConfig, OptionSelectItem } from "./abstact-option-select-ui-handler";
 import { Tutorial, handleTutorial } from "../tutorial";
-import { updateUserInfo } from "../account";
 import i18next from "../plugins/i18n";
 import {Button} from "../enums/buttons";
 
@@ -46,9 +45,7 @@ export default class MenuUiHandler extends MessageUiHandler {
   constructor(scene: BattleScene, mode?: Mode) {
     super(scene, mode);
 
-    this.ignoredMenuOptions = !bypassLogin
-      ? [ ]
-      : [ MenuOptions.LOG_OUT ];
+    this.ignoredMenuOptions = [];
     this.menuOptions = Utils.getEnumKeys(MenuOptions).map(m => parseInt(MenuOptions[m]) as MenuOptions).filter(m => !this.ignoredMenuOptions.includes(m));
   }
 
@@ -320,13 +317,9 @@ export default class MenuUiHandler extends MessageUiHandler {
       case MenuOptions.LOG_OUT:
         success = true;
         const doLogout = () => {
-          Utils.apiFetch("account/logout", true).then(res => {
-            if (!res.ok) {
-              console.error(`Log out failed (${res.status}: ${res.statusText})`);
-            }
-            Utils.setCookie(Utils.sessionIdKey, "");
-            updateUserInfo().then(() => this.scene.reset(true, true));
-          });
+          Utils.setCookie(Utils.sessionIdKey, "");
+          setBypassLogin(false);
+          this.scene.reset(true, true);
         };
         if (this.scene.currentBattle) {
           ui.showText(i18next.t("menuUiHandler:losingProgressionWarning"), null, () => {
