@@ -350,7 +350,7 @@ export class TitlePhase extends Phase {
           console.error("Failed to load daily run:\n", err);
         });
       } else {
-        generateDaily(btoa(new Date().toISOString().substring(0, 10)));
+        generateDaily(new Date().toISOString().substring(0, 10));
       }
     });
   }

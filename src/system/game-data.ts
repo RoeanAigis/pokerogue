@@ -69,15 +69,11 @@ export function getDataTypeKey(dataType: GameDataType, slotId: integer = 0): str
 }
 
 function encrypt(data: string, bypassLogin: boolean): string {
-  return (bypassLogin
-    ? (data: string) => btoa(data)
-    : (data: string) => AES.encrypt(data, saveKey))(data);
+  return data;
 }
 
 function decrypt(data: string, bypassLogin: boolean): string {
-  return (bypassLogin
-    ? (data: string) => atob(data)
-    : (data: string) => AES.decrypt(data, saveKey).toString(enc.Utf8))(data);
+  return data;
 }
 
 interface SystemSaveData {
@@ -826,17 +822,17 @@ export class GameData {
 
       if (sessionData.gameMode === GameModes.DAILY) {
         if (localStorage.hasOwnProperty("daily")) {
-          daily = JSON.parse(atob(localStorage.getItem("daily")));
+          daily = JSON.parse(localStorage.getItem("daily"));
           if (daily.includes(seed)) {
             return resolve(false);
           } else {
             daily.push(seed);
-            localStorage.setItem("daily", btoa(JSON.stringify(daily)));
+            localStorage.setItem("daily", JSON.stringify(daily));
             return resolve(true);
           }
         } else {
           daily.push(seed);
-          localStorage.setItem("daily", btoa(JSON.stringify(daily)));
+          localStorage.setItem("daily", JSON.stringify(daily));
           return resolve(true);
         }
       } else {

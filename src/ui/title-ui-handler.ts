@@ -59,17 +59,10 @@ export default class TitleUiHandler extends OptionSelectUiHandler {
   }
 
   updateTitleStats(): void {
-    Utils.apiFetch("game/titlestats")
-      .then(request => request.json())
-      .then(stats => {
-        this.playerCountLabel.setText(`${stats.playerCount} ${i18next.t("menu:playersOnline")}`);
-        if (this.splashMessage === getBattleCountSplashMessage()) {
-          this.splashMessageText.setText(getBattleCountSplashMessage().replace("{COUNT}", stats.battleCount.toLocaleString("en-US")));
-        }
-      })
-      .catch(err => {
-        console.error("Failed to fetch title stats:\n", err);
-      });
+    this.playerCountLabel.setText(`${2} ${i18next.t("menu:playersOnline")}`);
+    if (this.splashMessage === getBattleCountSplashMessage()) {
+      this.splashMessageText.setText(getBattleCountSplashMessage().replace("{COUNT}", stats.battleCount.toLocaleString("en-US")));
+    }
   }
 
   show(args: any[]): boolean {
