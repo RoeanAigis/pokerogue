@@ -3,6 +3,7 @@ import { Species } from "./enums/species";
 import { getPokemonSpecies, speciesStarters } from "./pokemon-species";
 import { EggTier } from "./enums/egg-type";
 import i18next from "../plugins/i18n";
+import { getCookie, setCookie } from "#app/utils.js";
 
 export const EGG_SEED = 1073741824;
 
@@ -91,7 +92,7 @@ export function getEggGachaTypeDescriptor(scene: BattleScene, egg: Egg): string 
   }
 }
 
-export function getLegendaryGachaSpeciesForTimestamp(scene: BattleScene, timestamp: integer): Species {
+function getLegendaryGachaSpeciesForTimestampInternal(scene: BattleScene, timestamp: integer): Species {
   const legendarySpecies = Object.entries(speciesStarters)
     .filter(s => s[1] >= 8 && s[1] <= 9)
     .map(s => parseInt(s[0]))
@@ -109,5 +110,25 @@ export function getLegendaryGachaSpeciesForTimestamp(scene: BattleScene, timesta
     ret = Phaser.Math.RND.shuffle(legendarySpecies)[index];
   }, offset, EGG_SEED.toString());
 
-  return ret;
+  // Only set the cookie if its not already defined.
+  if(getCookie("legendaryGachaSpecies") === "" || getCookie("lastDay") !== timeDate.getDate().toString()) {
+    setCookie("legendaryGachaSpecies", ret.toString());
+    setCookie("lastDay", timeDate.getDate().toString());
+  }
+
+  return ret;  
+}
+
+// Roean: Allow for legendary override for challenges etc.
+export function getLegendaryGachaSpeciesForTimestamp(scene: BattleScene, timestamp: integer): Species {
+  
+  // Initial Cache.
+  getLegendaryGachaSpeciesForTimestampInternal(scene, timestamp);
+
+  if(getCookie("legendaryGachaSpecies") !== getLegendaryGachaSpeciesForTimestampInternal(scene, timestamp).toString()) {
+    return parseInt(getCookie("legendaryGachaSpecies"));
+  }
+  
+  return getLegendaryGachaSpeciesForTimestampInternal(scene, timestamp);
+
 }

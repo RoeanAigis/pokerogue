@@ -4,7 +4,7 @@ import OptionSelectUiHandler from "./option-select-ui-handler";
 import { Mode } from "./ui";
 import * as Utils from "../utils";
 import { TextStyle, addTextObject } from "./text";
-import { getBattleCountSplashMessage, getSplashMessages } from "../data/splash-messages";
+import { getSplashMessages } from "../data/splash-messages";
 import i18next from "i18next";
 
 export default class TitleUiHandler extends OptionSelectUiHandler {
@@ -60,9 +60,6 @@ export default class TitleUiHandler extends OptionSelectUiHandler {
 
   updateTitleStats(): void {
     this.playerCountLabel.setText(`${2} ${i18next.t("menu:playersOnline")}`);
-    if (this.splashMessage === getBattleCountSplashMessage()) {
-      this.splashMessageText.setText(getBattleCountSplashMessage().replace("{COUNT}", stats.battleCount.toLocaleString("en-US")));
-    }
   }
 
   show(args: any[]): boolean {
