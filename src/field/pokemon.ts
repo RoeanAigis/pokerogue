@@ -48,6 +48,7 @@ import { BerryType } from "../data/berry";
 import i18next from "../plugins/i18n";
 import { speciesEggMoves } from "../data/egg-moves";
 import { ModifierTier } from "../modifier/modifier-tier";
+import { ShinyWeekend } from "#app/revents/events.js";
 
 export enum FieldPosition {
   CENTER,
@@ -180,7 +181,11 @@ export default abstract class Pokemon extends Phaser.GameObjects.Container {
       }
 
       if (this.shiny === undefined) {
-        this.trySetShiny();
+        if (ShinyWeekend) {
+          this.trySetShiny(128);
+        } else {
+          this.trySetShiny();
+        }
       }
 
       if (this.variant === undefined) {
