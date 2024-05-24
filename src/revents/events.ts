@@ -1,2 +1,2 @@
 
-export const ShinyWeekend = false;
+export const ShinyWeekend = true;

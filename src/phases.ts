@@ -3939,15 +3939,11 @@ export class GameOverPhase extends BattlePhase {
     If Online, execute apiFetch as intended
     If Offline, execute offlineNewClear(), a localStorage implementation of newClear daily run checks */
     if (this.victory) {
-      if (!Utils.isLocal) {
-        Utils.apiFetch(`savedata/newclear?slot=${this.scene.sessionSlotId}`, true)
-          .then(response => response.json())
-          .then(newClear => doGameOver(newClear));
-      } else {
-        this.scene.gameData.offlineNewClear(this.scene).then(result => {
-          doGameOver(result);
-        });
-      }
+
+      this.scene.gameData.offlineNewClear(this.scene).then(result => {
+        doGameOver(result);
+      });
+      
     } else {
       doGameOver(false);
     }
