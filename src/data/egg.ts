@@ -41,15 +41,15 @@ export class Egg {
 }
 
 export function getEggTierDefaultHatchWaves(tier: EggTier): integer {
-  switch (tier) {
+  switch (tier) { // REDUCED EGG HATCH CYCLES BY 50/60/70/80% OF TOTAL EGG CYCLES
   case EggTier.COMMON:
-    return 10;
+    return 5; //prev: 10
   case EggTier.GREAT:
-    return 25;
+    return 10; //prev: 25
   case EggTier.ULTRA:
-    return 50;
+    return 15; //prev: 50
   }
-  return 100;
+  return 20; //prev: 100
 }
 
 export function getEggDescriptor(egg: Egg): string {
